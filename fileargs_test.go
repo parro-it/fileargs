@@ -66,3 +66,35 @@ Cannot parse line "2020112600 24 IT": 2 fields expected, got 3
 	assert.Nil(t, dates)
 
 }
+
+func TestFileWrong3(t *testing.T) {
+	dateFile := fixture("wrong3.txt")
+	dates, err := ReadArguments(dateFile)
+	assert.Error(t, err)
+	assert.Equal(t, `
+Expected format for arguments.txt:
+/path/to/cfg/file
+YYYYMMDDHH HOURS
+...
+Cannot parse "2020112699" as date: parsing time "2020112699": hour out of range
+`, err.Error())
+
+	assert.Nil(t, dates)
+
+}
+
+func TestFileWrong4(t *testing.T) {
+	dateFile := fixture("wrong4.txt")
+	dates, err := ReadArguments(dateFile)
+	assert.Error(t, err)
+	assert.Equal(t, `
+Expected format for arguments.txt:
+/path/to/cfg/file
+YYYYMMDDHH HOURS
+...
+Cannot parse "AA" as number: strconv.ParseInt: parsing "AA": invalid syntax
+`, err.Error())
+
+	assert.Nil(t, dates)
+
+}
