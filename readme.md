@@ -7,3 +7,5 @@
 [![build](https://github.com/parro-it/fileargs/actions/workflows/go.yml/badge.svg)](https://github.com/parro-it/fileargs/actions/workflows/go.yml)
 
 [![docs](https://pkg.go.dev/badge/github.com/parro-it/fileargs.svg)](https://pkg.go.dev/github.com/parro-it/fileargs)
+
+[![maintainability](https://api.codeclimate.com/v1/badges/cd953a22a0d47c429369/maintainability)](https://codeclimate.com/github/parro-it/fileargs/maintainability)
