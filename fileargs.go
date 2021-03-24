@@ -23,6 +23,20 @@ type Period struct {
 	Duration time.Duration
 }
 
+func mkerr(err error, format string, arguments ...interface{}) error {
+	errmsg := fmt.Sprintf(format, arguments...)
+	errfrm := strings.ReplaceAll(`
+		Expected format for arguments.txt:
+		/path/to/cfg/file
+		YYYYMMDDHH HOURS
+		...
+		%s: %w
+	`, "\t", "")
+
+	return fmt.Errorf(errfrm, errmsg, err)
+
+}
+
 // ReadArguments reads arguments contained
 // in file, and return a filled *FileArguments
 func ReadArguments(file string) (*FileArguments, error) {
@@ -46,44 +60,23 @@ func ReadArguments(file string) (*FileArguments, error) {
 			}
 			_, err := os.Stat(args.CfgPath)
 			if err != nil {
-				return nil, fmt.Errorf(`
-Expected format for arguments.txt:
-/path/to/cfg/file
-YYYYMMDDHH HOURS
-...
-Cannot stat config file "%s": %w`, line, err)
+				return nil, mkerr(err, `Config file "%s" not found`, line)
 			}
 			continue
 		}
 		parts := strings.Split(line, " ")
 		if len(parts) != 2 {
-			return nil, fmt.Errorf(`
-Expected format for arguments.txt:
-/path/to/cfg/file
-YYYYMMDDHH HOURS
-...
-Cannot parse line
-%s`, line)
+			err := fmt.Errorf("2 fields expected, got %d", len(parts))
+			return nil, mkerr(err, `Cannot parse line "%s"`, line)
 		}
 		date, err := time.Parse("2006010215", parts[0])
 		if err != nil {
-			return nil, fmt.Errorf(`
-Expected format for arguments.txt:
-/path/to/cfg/file
-YYYYMMDDHH HOURS
-...
-Cannot parse line "%s": %w`, line, err)
+			return nil, mkerr(err, `Cannot parse "%s" as date`, parts[0])
 		}
 		var duration time.Duration
 		dur, err := strconv.ParseInt(parts[1], 10, 64)
 		if err != nil {
-			return nil, fmt.Errorf(`
-Expected format for arguments.txt:
-/path/to/cfg/file
-YYYYMMDDHH HOURS
-...
-Cannot parse line "%s": %w`, line, err)
-
+			return nil, mkerr(err, `Cannot parse "%s" as number`, parts[1])
 		}
 		duration = time.Hour * time.Duration(dur)
 		tp := Period{

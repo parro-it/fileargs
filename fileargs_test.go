@@ -44,7 +44,8 @@ Expected format for arguments.txt:
 /path/to/cfg/file
 YYYYMMDDHH HOURS
 ...
-Cannot stat config file "2020112600 24": stat %s: no such file or directory`, fixture("2020112600 24")), err.Error())
+Config file "2020112600 24" not found: stat %s: no such file or directory
+`, fixture("2020112600 24")), err.Error())
 
 	assert.Nil(t, dates)
 
@@ -59,8 +60,8 @@ Expected format for arguments.txt:
 /path/to/cfg/file
 YYYYMMDDHH HOURS
 ...
-Cannot parse line
-2020112600 24 IT`, err.Error())
+Cannot parse line "2020112600 24 IT": 2 fields expected, got 3
+`, err.Error())
 
 	assert.Nil(t, dates)
 
