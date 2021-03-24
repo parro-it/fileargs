@@ -20,7 +20,7 @@ jobs:
 
       - name: Lint
         run: |
-          go get golang.org/x/lint/golint
+          go mod download golang.org/x/lint
           golint -set_exit_status ./...
 
       - name: Vet
