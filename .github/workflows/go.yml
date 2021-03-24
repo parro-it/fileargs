@@ -15,6 +15,9 @@ jobs:
 
       - name: Checkout code
         uses: actions/checkout@v2
+        with:
+          path: 'github.com/parro-it/fileargs'
+
 
       - name: Install cc-test-reporter
         run: |
