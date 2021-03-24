@@ -6,7 +6,7 @@
 
 <img style="display: inline-block" alt="GitHub go.mod Go version" src="https://img.shields.io/github/go-mod/go-version/parro-it/fileargs?style=for-the-badge">
 
-<img  style="display: inline-block" alt="GitHub Workflow Status (branch)" src="https://img.shields.io/github/workflow/status/parro-it/fileargs/test/master?style=for-the-badge">
+<img  style="display: inline-block" alt="GitHub Workflow Status (branch)" src="https://img.shields.io/github/workflow/status/parro-it/fileargs/Test/master?style=for-the-badge">
 
 <img  style="display: inline-block" alt="Coveralls branch" src="https://img.shields.io/coveralls/github/parro-it/fileargs/master?style=for-the-badge">
 
