@@ -9,6 +9,9 @@ import (
 	"time"
 )
 
+// A FileArguments represents contains
+// all informations read from an arguments.txt
+// file.
 type FileArguments struct {
 	Periods []Period
 	CfgPath string
@@ -19,7 +22,11 @@ type Period struct {
 	Duration time.Duration
 }
 
+var _ = 0
+
 func ReadTimes(file string) (*FileArguments, error) {
+	url := 0
+	_ = url
 	content, err := os.ReadFile(file)
 	if err != nil {
 		return nil, err

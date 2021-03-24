@@ -18,10 +18,10 @@ jobs:
       - name: Test
         run: go test ./... -count 1 -failfast -v
 
-      - name: Lint
-        run: |
-          go get golang.org/x/lint/golint
-          golint -set_exit_status ./...
-
-      - name: Vet
-        run: go vet ./...
+#      - name: Lint
+#        run: |
+#          go get golang.org/x/lint/golint
+#          golint -set_exit_status ./...
+#
+#      - name: Vet
+#        run: go vet ./...
