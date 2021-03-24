@@ -41,7 +41,7 @@ jobs:
         run: |
           ./cc-test-reporter before-build
           go test -covermode atomic -coverprofile=c.out ./...
-          ./cc-test-reporter after-build --prefix .
+          ./cc-test-reporter after-build --prefix $GITHUB_WORKSPACE
         env:
           CC_TEST_REPORTER_ID: ${{ secrets.CODE_CLIMATE_REPORTER_ID }}
 
