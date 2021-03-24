@@ -1,7 +1,9 @@
 package fileargs
 
 import (
+	"bufio"
 	"fmt"
+	"io"
 	"os"
 	"path"
 	"strconv"
@@ -37,33 +39,36 @@ func mkerr(err error, format string, arguments ...interface{}) error {
 
 }
 
-// ReadArguments reads arguments contained
-// in file, and return a filled *FileArguments
-func ReadArguments(file string) (*FileArguments, error) {
-	url := 0
-	_ = url
-	content, err := os.ReadFile(file)
-	if err != nil {
-		return nil, err
+// Reader ...
+type Reader struct {
+	R io.Reader
+}
+
+// ReadAll ...
+func (r *Reader) ReadAll(cwd string) (*FileArguments, error) {
+	var args *FileArguments
+	scanner := bufio.NewScanner(r.R)
+
+	ok, firstLine := scanner.Scan(), scanner.Text()
+	if !ok {
+		return nil, mkerr(scanner.Err(), `Malformed file: missing config path`)
+	}
+	args = &FileArguments{
+		Periods: []Period{},
+		CfgPath: strings.TrimSpace(firstLine),
 	}
 
-	contentS := strings.Split(string(content), "\n")
-	args := FileArguments{
-		Periods: make([]Period, len(contentS)-1),
-		CfgPath: "",
+	if !path.IsAbs(args.CfgPath) {
+		args.CfgPath = path.Join(cwd, args.CfgPath)
 	}
-	for idx, line := range contentS {
-		if idx == 0 {
-			args.CfgPath = strings.TrimSpace(line)
-			if !path.IsAbs(args.CfgPath) {
-				args.CfgPath = path.Join(path.Dir(file), args.CfgPath)
-			}
-			_, err := os.Stat(args.CfgPath)
-			if err != nil {
-				return nil, mkerr(err, `Config file "%s" not found`, line)
-			}
-			continue
-		}
+
+	_, err := os.Stat(args.CfgPath)
+	if err != nil {
+		return nil, mkerr(err, `Config file "%s" not found`, firstLine)
+	}
+
+	for scanner.Scan() {
+		line := scanner.Text()
 		parts := strings.Split(line, " ")
 		if len(parts) != 2 {
 			err := fmt.Errorf("2 fields expected, got %d", len(parts))
@@ -84,8 +89,23 @@ func ReadArguments(file string) (*FileArguments, error) {
 			Duration: duration,
 		}
 
-		args.Periods[idx-1] = tp
+		args.Periods = append(args.Periods, tp)
 	}
 
-	return &args, nil
+	return args, scanner.Err()
+}
+
+// ReadArguments reads arguments contained
+// in file, and return a filled *FileArguments
+func ReadArguments(file string) (*FileArguments, error) {
+	f, err := os.Open(file)
+	if err != nil {
+		return nil, err
+	}
+	defer f.Close()
+
+	reader := &Reader{f}
+
+	return reader.ReadAll(path.Dir(file))
+
 }
