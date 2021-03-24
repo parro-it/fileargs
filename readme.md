@@ -4,15 +4,15 @@
 
 <div align="center">
 
-<img alt="GitHub Workflow Status (branch)" src="https://img.shields.io/github/workflow/status/parro-it/fileargs/go.yml/master?style=flat-square">
+<img style="display: inline-block" alt="GitHub go.mod Go version" src="https://img.shields.io/github/go-mod/go-version/parro-it/fileargs?style=for-the-badge">
 
+<img  style="display: inline-block" alt="GitHub Workflow Status (branch)" src="https://img.shields.io/github/workflow/status/parro-it/fileargs/go.yml/master?style=for-the-badge">
 
-[![coverage](https://coveralls.io/repos/github/parro-it/fileargs/badge.svg?branch=master)](https://coveralls.io/github/parro-it/fileargs?branch=master)
+<img  style="display: inline-block" alt="Coveralls branch" src="https://img.shields.io/coveralls/github/parro-it/fileargs/master?style=for-the-badge">
 
-[![build](https://github.com/parro-it/fileargs/actions/workflows/go.yml/badge.svg)](https://github.com/parro-it/fileargs/actions/workflows/go.yml)
+<img  style="display: inline-block" alt="Code Climate maintainability" src="https://img.shields.io/codeclimate/maintainability/parro-it/fileargs?style=for-the-badge">
 
-[![docs](https://pkg.go.dev/badge/github.com/parro-it/fileargs.svg)](https://pkg.go.dev/github.com/parro-it/fileargs)
+<img  style="display: inline-block" alt="Go.Dev reference" src="https://img.shields.io/badge/go.dev-reference-blue?logo=go&logoColor=white&style=for-the-badge">
 
-[![code](https://api.codeclimate.com/v1/badges/cd953a22a0d47c429369/maintainability)](https://codeclimate.com/github/parro-it/fileargs/maintainability)
 
 </div>
