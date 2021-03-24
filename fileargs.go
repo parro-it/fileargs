@@ -44,51 +44,92 @@ type Reader struct {
 	R io.Reader
 }
 
+func (r *Reader) parseConfigFilePath(cwd string, scanner *bufio.Scanner) (string, error) {
+	ok, firstLine := scanner.Scan(), scanner.Text()
+	if !ok {
+		return "", mkerr(scanner.Err(), `Malformed file: missing config path`)
+	}
+
+	cfgPath := strings.TrimSpace(firstLine)
+	if !path.IsAbs(cfgPath) {
+		cfgPath = path.Join(cwd, cfgPath)
+	}
+
+	_, err := os.Stat(cfgPath)
+	if err != nil {
+		return "", mkerr(err, `Config file "%s" not found`, firstLine)
+	}
+
+	return cfgPath, nil
+}
+
+type ctx struct {
+	Err error
+}
+
+func (err *ctx) splitParts(line string) []string {
+	parts := strings.Split(line, " ")
+	if len(parts) != 2 {
+		innerr := fmt.Errorf("2 fields expected, got %d", len(parts))
+		err.Err = mkerr(innerr, `Cannot parse line "%s"`, line)
+	}
+	return parts
+}
+
+func (err *ctx) parseStart(text string) time.Time {
+	if err.Err != nil {
+		return time.Time{}
+	}
+
+	date, innerr := time.Parse("2006010215", text)
+	if innerr != nil {
+		err.Err = mkerr(innerr, `Cannot parse "%s" as date`, text)
+		return time.Time{}
+	}
+
+	return date
+}
+
+func (err *ctx) parseDuration(text string) time.Duration {
+	if err.Err != nil {
+		return time.Duration(0)
+	}
+	dur, innerr := strconv.ParseInt(text, 10, 64)
+	if innerr != nil {
+		err.Err = mkerr(innerr, `Cannot parse "%s" as number`, text)
+		return time.Duration(0)
+	}
+	return time.Hour * time.Duration(dur)
+}
+
 // ReadAll ...
 func (r *Reader) ReadAll(cwd string) (*FileArguments, error) {
 	var args *FileArguments
 	scanner := bufio.NewScanner(r.R)
 
-	ok, firstLine := scanner.Scan(), scanner.Text()
-	if !ok {
-		return nil, mkerr(scanner.Err(), `Malformed file: missing config path`)
+	cfgPath, err := r.parseConfigFilePath(cwd, scanner)
+	if err != nil {
+		return nil, err
 	}
+
 	args = &FileArguments{
 		Periods: []Period{},
-		CfgPath: strings.TrimSpace(firstLine),
-	}
-
-	if !path.IsAbs(args.CfgPath) {
-		args.CfgPath = path.Join(cwd, args.CfgPath)
-	}
-
-	_, err := os.Stat(args.CfgPath)
-	if err != nil {
-		return nil, mkerr(err, `Config file "%s" not found`, firstLine)
+		CfgPath: cfgPath,
 	}
 
 	for scanner.Scan() {
 		line := scanner.Text()
-		parts := strings.Split(line, " ")
-		if len(parts) != 2 {
-			err := fmt.Errorf("2 fields expected, got %d", len(parts))
-			return nil, mkerr(err, `Cannot parse line "%s"`, line)
-		}
-		date, err := time.Parse("2006010215", parts[0])
-		if err != nil {
-			return nil, mkerr(err, `Cannot parse "%s" as date`, parts[0])
-		}
-		var duration time.Duration
-		dur, err := strconv.ParseInt(parts[1], 10, 64)
-		if err != nil {
-			return nil, mkerr(err, `Cannot parse "%s" as number`, parts[1])
-		}
-		duration = time.Hour * time.Duration(dur)
-		tp := Period{
-			Start:    date,
-			Duration: duration,
-		}
+		var c ctx
 
+		parts := c.splitParts(line)
+
+		tp := Period{
+			Start:    c.parseStart(parts[0]),
+			Duration: c.parseDuration(parts[1]),
+		}
+		if c.Err != nil {
+			return nil, c.Err
+		}
 		args.Periods = append(args.Periods, tp)
 	}
 
