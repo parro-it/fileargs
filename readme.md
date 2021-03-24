@@ -13,30 +13,28 @@
     href="https://github.com/parro-it/fileargs/actions/workflows/go.yml" 
     style="display: inline"> 
     <img 
-        alt="Build Status" 
+        alt="Tests Status" 
         src="https://img.shields.io/github/workflow/status/parro-it/fileargs/Test/master?style=flat&label=Tests">
 </a>
 <a 
     href="https://codeclimate.com/github/parro-it/fileargs/test_coverage"
     style="display: inline"> 
     <img 
-        alt="Code Climate coverage" 
-        src="https://img.shields.io/codeclimate/coverage/parro-it/fileargs">
+        alt="Coverage" 
+        src="https://img.shields.io/codeclimate/coverage/parro-it/fileargs?style=flat&label=Coverage">
 </a>
 <a 
     href="https://codeclimate.com/github/parro-it/fileargs" 
     style="display: inline"> 
     <img 
-        alt="Code Quality" 
-        src="https://img.shields.io/codeclimate/maintainability/parro-it/fileargs?style=flat">
+        alt="Code Climate" 
+        src="https://img.shields.io/codeclimate/maintainability/parro-it/fileargs?style=flat&label=CodeClimate">
 </a> 
 <a 
     href="https://pkg.go.dev/github.com/parro-it/fileargs" 
     style="display: inline"> 
     <img 
-        alt="Go.Dev docs" 
-        src="https://img.shields.io/badge/go.dev-reference-blue?logo=go&logoColor=white&style=flat">
+        alt="Docs" 
+        src="https://img.shields.io/badge/go.dev-reference-blue?logo=go&logoColor=white&style=flat&label=Docs">
 </a>
 </div>
-
-<img alt="Code Climate coverage" src="https://img.shields.io/codeclimate/coverage/parro-it/fileargs?label=Tests">
