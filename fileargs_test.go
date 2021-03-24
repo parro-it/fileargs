@@ -24,7 +24,7 @@ func fixture(filePath string) string {
 
 func TestMatchDownloadedData(t *testing.T) {
 	dateFile := fixture("dates.txt")
-	args, err := ReadTimes(dateFile)
+	args, err := ReadArguments(dateFile)
 	assert.NoError(t, err)
 	assert.Equal(t, 2, len(args.Periods))
 	assert.Equal(t, "2020112600", args.Periods[0].Start.Format("2006010215"))
@@ -37,7 +37,7 @@ func TestMatchDownloadedData(t *testing.T) {
 
 func TestFileWrong(t *testing.T) {
 	dateFile := fixture("wrong.txt")
-	dates, err := ReadTimes(dateFile)
+	dates, err := ReadArguments(dateFile)
 	assert.Error(t, err)
 	assert.Equal(t, fmt.Sprintf(`
 Expected format for arguments.txt:
@@ -52,7 +52,7 @@ Cannot stat config file "2020112600 24": stat %s: no such file or directory`, fi
 
 func TestFileWrong2(t *testing.T) {
 	dateFile := fixture("wrong2.txt")
-	dates, err := ReadTimes(dateFile)
+	dates, err := ReadArguments(dateFile)
 	assert.Error(t, err)
 	assert.Equal(t, `
 Expected format for arguments.txt:

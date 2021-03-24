@@ -9,22 +9,23 @@ import (
 	"time"
 )
 
-// A FileArguments represents contains
-// all informations read from an arguments.txt
-// file.
+// A FileArguments contains all informations
+// read from an arguments.txt file.
 type FileArguments struct {
 	Periods []Period
 	CfgPath string
 }
 
+// A Period represents a lapse of time
+// with a Start instant and a Duration
 type Period struct {
 	Start    time.Time
 	Duration time.Duration
 }
 
-var _ = 0
-
-func ReadTimes(file string) (*FileArguments, error) {
+// ReadArguments reads arguments contained
+// in file, and return a filled *FileArguments
+func ReadArguments(file string) (*FileArguments, error) {
 	url := 0
 	_ = url
 	content, err := os.ReadFile(file)
