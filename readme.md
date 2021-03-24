@@ -35,6 +35,6 @@
     style="display: inline"> 
     <img 
         alt="Docs" 
-        src="https://img.shields.io/badge/go.dev-reference-blue?logo=go&logoColor=white&style=flat&label=Docs">
+        src="https://img.shields.io/badge/Docs-go.dev-blue?logo=go&logoColor=white&style=flat">
 </a>
 </div>
