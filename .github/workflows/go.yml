@@ -16,7 +16,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
       
-        - name: Checkout code
+      - name: Checkout code (2)
         uses: actions/checkout@v2
         with:
           path: 'github.com/parro-it/fileargs'
