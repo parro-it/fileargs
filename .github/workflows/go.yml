@@ -16,7 +16,17 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Test
-        run: go test ./... -count 1 -failfast -v
+        run: go test -failfast -race -covermode atomic -coverprofile=covprofile ./...
+ 
+      - name: Install goveralls
+        env:
+          GO111MODULE: off
+        run: go get github.com/mattn/goveralls
+      
+      - name: Send coverage
+        env:
+          COVERALLS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: goveralls -coverprofile=covprofile -service=github -ignore='examples'
 
 #      - name: Lint
 #        run: |
