@@ -15,9 +15,17 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Testt
+      - name: Test
         run: go test -failfast -race -covermode atomic -coverprofile=covprofile ./...
  
+      - name: Lint
+        run: |
+          go get golang.org/x/lint/golint
+          golint -set_exit_status ./...
+
+      - name: Vet
+        run: go vet ./...
+        
       - name: Install goveralls
         env:
           GO111MODULE: off
@@ -28,10 +36,3 @@ jobs:
           COVERALLS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: goveralls -coverprofile=covprofile -service=github -ignore='examples'
 
-#      - name: Lint
-#        run: |
-#          go get golang.org/x/lint/golint
-#          golint -set_exit_status ./...
-#
-#      - name: Vet
-#        run: go vet ./...
