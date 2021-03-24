@@ -13,14 +13,14 @@ jobs:
         with:
           go-version: ${{ matrix.go-version }}
 
+      - name: Checkout code
+        uses: actions/checkout@v2
+
       - name: Install cc-test-reporter
         run: |
           curl -L 'https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64' > ./cc-test-reporter
           chmod +x ./cc-test-reporter
           
-      - name: Checkout code
-        uses: actions/checkout@v2
-
       - name: Test
         run: go test -failfast -race ./...
  
