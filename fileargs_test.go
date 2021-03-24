@@ -1,4 +1,4 @@
-package runner
+package fileargs
 
 import (
 	"fmt"
