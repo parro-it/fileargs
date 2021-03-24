@@ -28,7 +28,7 @@
     style="display: inline"> 
     <img 
         alt="Code Climate" 
-        src="https://img.shields.io/codeclimate/maintainability/parro-it/fileargs?style=flat&label=CodeClimate&logo=codeclimate">
+        src="https://img.shields.io/codeclimate/maintainability/parro-it/fileargs?style=flat&label=Code Climate&logo=codeclimate">
 </a> 
 <a 
     href="https://pkg.go.dev/github.com/parro-it/fileargs" 
