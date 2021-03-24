@@ -2,7 +2,7 @@
 
 > This simple package allows to parse and format text files that contains set of time periods and other configuration information.
 
-<div style="text-align: center">
+<div align="center">
 
 <a href="#" style="display: inline-block"> <img alt="Go Version" src="https://img.shields.io/github/go-mod/go-version/parro-it/fileargs?style=flat"></a>
 
