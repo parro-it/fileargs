@@ -39,9 +39,9 @@ jobs:
       
       - name: Test Coverage
         run: |
-          ./cc-test-reporter before-build
+          ./cc-test-reporter before-build --prefix .
           go test -covermode atomic -coverprofile=c.out ./...
-          ./cc-test-reporter after-build --prefix `pwd`
+          ./cc-test-reporter after-build --prefix .
         env:
           CC_TEST_REPORTER_ID: ${{ secrets.CODE_CLIMATE_REPORTER_ID }}
 
