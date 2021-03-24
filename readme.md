@@ -7,28 +7,28 @@
     href="https://github.com/parro-it/fileargs/blob/0764588ea9629ba0bdf8e5786f6371208b95067a/go.mod#L3" style="display: inline">
     <img 
         alt="Go Version" 
-        src="https://img.shields.io/github/go-mod/go-version/parro-it/fileargs?style=flat">
+        src="https://img.shields.io/github/go-mod/go-version/parro-it/fileargs?style=flat&logo=go">
 </a>
 <a 
     href="https://github.com/parro-it/fileargs/actions/workflows/go.yml" 
     style="display: inline"> 
     <img 
         alt="Tests Status" 
-        src="https://img.shields.io/github/workflow/status/parro-it/fileargs/Test/master?style=flat&label=Tests">
+        src="https://img.shields.io/github/workflow/status/parro-it/fileargs/Test/master?style=flat&label=Tests&logo=github">
 </a>
 <a 
     href="https://codeclimate.com/github/parro-it/fileargs/test_coverage"
     style="display: inline"> 
     <img 
         alt="Coverage" 
-        src="https://img.shields.io/codeclimate/coverage/parro-it/fileargs?style=flat&label=Coverage">
+        src="https://img.shields.io/codeclimate/coverage/parro-it/fileargs?style=flat&label=Coverage&logo=codeclimate">
 </a>
 <a 
     href="https://codeclimate.com/github/parro-it/fileargs" 
     style="display: inline"> 
     <img 
         alt="Code Climate" 
-        src="https://img.shields.io/codeclimate/maintainability/parro-it/fileargs?style=flat&label=CodeClimate">
+        src="https://img.shields.io/codeclimate/maintainability/parro-it/fileargs?style=flat&label=CodeClimate&logo=codeclimate">
 </a> 
 <a 
     href="https://pkg.go.dev/github.com/parro-it/fileargs" 
