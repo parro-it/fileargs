@@ -21,14 +21,14 @@
     style="display: inline"> 
     <img 
         alt="Coverage" 
-        src="https://img.shields.io/codeclimate/coverage/parro-it/fileargs?style=flat&label=Coverage&logo=codeclimate">
+        src="https://img.shields.io/codeclimate/coverage/parro-it/fileargs?style=flat&label=Coverage&logo=code-climate">
 </a>
 <a 
     href="https://codeclimate.com/github/parro-it/fileargs" 
     style="display: inline"> 
     <img 
         alt="Code Climate" 
-        src="https://img.shields.io/codeclimate/maintainability/parro-it/fileargs?style=flat&label=Code Climate&logo=codeclimate">
+        src="https://img.shields.io/codeclimate/maintainability/parro-it/fileargs?style=flat&label=Code-Climate&logo=code-climate">
 </a> 
 <a 
     href="https://pkg.go.dev/github.com/parro-it/fileargs" 
