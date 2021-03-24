@@ -4,15 +4,15 @@
 
 <div align="center">
 
-<img style="display: inline-block" alt="GitHub go.mod Go version" src="https://img.shields.io/github/go-mod/go-version/parro-it/fileargs?style=for-the-badge">
+<img style="display: inline-block" alt="GitHub go.mod Go version" src="https://img.shields.io/github/go-mod/go-version/parro-it/fileargs?style=social">
 
-<img  style="display: inline-block" alt="GitHub Workflow Status (branch)" src="https://img.shields.io/github/workflow/status/parro-it/fileargs/Test/master?style=for-the-badge">
+<img  style="display: inline-block" alt="GitHub Workflow Status (branch)" src="https://img.shields.io/github/workflow/status/parro-it/fileargs/Test/master?style=social">
 
-<img  style="display: inline-block" alt="Coveralls branch" src="https://img.shields.io/coveralls/github/parro-it/fileargs/master?style=for-the-badge">
+<img  style="display: inline-block" alt="Coveralls branch" src="https://img.shields.io/coveralls/github/parro-it/fileargs/master?style=social">
 
-<img  style="display: inline-block" alt="Code Climate maintainability" src="https://img.shields.io/codeclimate/maintainability/parro-it/fileargs?style=for-the-badge">
+<img  style="display: inline-block" alt="Code Climate maintainability" src="https://img.shields.io/codeclimate/maintainability/parro-it/fileargs?style=social">
 
-<img  style="display: inline-block" alt="Go.Dev reference" src="https://img.shields.io/badge/go.dev-reference-blue?logo=go&logoColor=white&style=for-the-badge">
+<img  style="display: inline-block" alt="Go.Dev reference" src="https://img.shields.io/badge/go.dev-reference-blue?logo=go&logoColor=white&style=social">
 
 
 </div>
