@@ -38,3 +38,21 @@
         src="https://img.shields.io/badge/Docs-go.dev-blue?logo=go&logoColor=white&style=flat">
 </a>
 </div>
+
+
+
+# Documentation
+
+* See [examples](examples_test.go) of use.
+* Read the API docs on [go.dev](https://pkg.go.dev/github.com/parro-it/fileargs).
+
+# Contributing
+
+* Pull request are welcome!
+* Open an issue if you find a bug.
+* If you want to request a new feature or need help, starts a [new discussion](https://github.com/parro-it/fileargs/discussions/new).
+* Read [contribution guidelines](contributing.md).
+
+# License
+[MIT Licensed](LICENSE)
+© 2021 Andrea Parodi
