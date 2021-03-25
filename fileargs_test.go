@@ -1,23 +1,18 @@
 package fileargs
 
 import (
+	"embed"
 	"fmt"
-	"os"
-	"path"
-	"path/filepath"
-	"runtime"
+	"io/fs"
 	"testing"
 	"time"
 
 	"github.com/stretchr/testify/assert"
 )
 
-var fixtureDir = func() string {
-	_, file, _, _ := runtime.Caller(1)
-	return path.Join(filepath.Dir(file), "fixtures")
-}()
-
-var fixtureFS = os.DirFS(fixtureDir)
+//go:embed fixtures
+var fixtureRootFS embed.FS
+var fixtureFS, _ = fs.Sub(fixtureRootFS, "fixtures")
 
 func TestPeriod(t *testing.T) {
 	p := Period{
@@ -67,8 +62,8 @@ Expected format for arguments.txt:
 /path/to/cfg/file
 YYYYMMDDHH HOURS
 ...
-Config file "2020112600 24" not found: open %s/2020112600 24: no such file or directory
-`, fixtureDir), err.Error())
+Config file "2020112600 24" not found: open 2020112600 24: file does not exist
+`), err.Error())
 
 	assert.Nil(t, dates)
 
