@@ -24,7 +24,7 @@ func fixture(filePath string) string {
 
 func TestMatchDownloadedData(t *testing.T) {
 	dateFile := fixture("dates.txt")
-	args, err := ReadArguments(dateFile)
+	args, err := ReadFile(dateFile)
 	assert.NoError(t, err)
 	assert.Equal(t, 2, len(args.Periods))
 	assert.Equal(t, "2020112600", args.Periods[0].Start.Format("2006010215"))
@@ -37,7 +37,7 @@ func TestMatchDownloadedData(t *testing.T) {
 
 func TestFileWrong(t *testing.T) {
 	dateFile := fixture("wrong.txt")
-	dates, err := ReadArguments(dateFile)
+	dates, err := ReadFile(dateFile)
 	assert.Error(t, err)
 	assert.Equal(t, fmt.Sprintf(`
 Expected format for arguments.txt:
@@ -53,7 +53,7 @@ Config file "2020112600 24" not found: stat %s: no such file or directory
 
 func TestFileWrong2(t *testing.T) {
 	dateFile := fixture("wrong2.txt")
-	dates, err := ReadArguments(dateFile)
+	dates, err := ReadFile(dateFile)
 	assert.Error(t, err)
 	assert.Equal(t, `
 Expected format for arguments.txt:
@@ -69,7 +69,7 @@ Cannot parse line "2020112600 24 IT": 2 fields expected, got 3
 
 func TestFileWrong3(t *testing.T) {
 	dateFile := fixture("wrong3.txt")
-	dates, err := ReadArguments(dateFile)
+	dates, err := ReadFile(dateFile)
 	assert.Error(t, err)
 	assert.Equal(t, `
 Expected format for arguments.txt:
@@ -85,7 +85,7 @@ Cannot parse "2020112699" as date: parsing time "2020112699": hour out of range
 
 func TestFileWrong4(t *testing.T) {
 	dateFile := fixture("wrong4.txt")
-	dates, err := ReadArguments(dateFile)
+	dates, err := ReadFile(dateFile)
 	assert.Error(t, err)
 	assert.Equal(t, `
 Expected format for arguments.txt:
