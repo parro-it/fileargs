@@ -24,7 +24,7 @@ jobs:
           curl -L 'https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64' > ./cc-test-reporter
           chmod +x ./cc-test-reporter
         working-directory: 'github.com/parro-it/fileargs'
-        
+
       - name: Test
         run: go test -failfast -race ./...
         working-directory: 'github.com/parro-it/fileargs'
@@ -46,4 +46,3 @@ jobs:
           ./cc-test-reporter after-build
         env:
           CC_TEST_REPORTER_ID: ${{ secrets.CODE_CLIMATE_REPORTER_ID }}
-        working-directory: 'github.com/parro-it/fileargs'
