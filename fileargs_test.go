@@ -19,6 +19,34 @@ var fixtureDir = func() string {
 
 var fixtureFS = os.DirFS(fixtureDir)
 
+func TestPeriod(t *testing.T) {
+	p := Period{
+		Start:    time.Date(2021, 3, 25, 11, 17, 0, 0, time.UTC),
+		Duration: 4 * time.Hour,
+	}
+
+	assert.Equal(t, "2021032511 04", p.String())
+}
+
+func TestFileArguments(t *testing.T) {
+	p := FileArguments{
+		Periods: []*Period{{
+			Start:    time.Date(2021, 3, 24, 21, 17, 0, 0, time.UTC),
+			Duration: 14 * time.Hour,
+		}, {
+			Start:    time.Date(2021, 3, 25, 11, 17, 0, 0, time.UTC),
+			Duration: 4 * time.Hour,
+		}},
+		CfgPath: "filepath.cfg",
+	}
+
+	assert.Equal(t,
+		`filepath.cfg
+2021032421 14
+2021032511 04
+`, p.String())
+}
+
 func TestMatchDownloadedData(t *testing.T) {
 	args, err := ReadFile(fixtureFS, "dates.txt")
 	assert.NoError(t, err)
@@ -28,7 +56,6 @@ func TestMatchDownloadedData(t *testing.T) {
 	assert.Equal(t, time.Hour*24, args.Periods[0].Duration)
 	assert.Equal(t, time.Hour*48, args.Periods[1].Duration)
 	assert.Equal(t, "wrfda-runner.cfg", args.CfgPath)
-
 }
 
 func TestFileWrong(t *testing.T) {

@@ -47,7 +47,7 @@ type Period struct {
 
 // String implements fmt.Stringer
 func (p Period) String() string {
-	return fmt.Sprintf("%s %2d", p.Start.Format("2006010215"), int(p.Duration.Hours()))
+	return fmt.Sprintf("%s %02d", p.Start.Format("2006010215"), int(p.Duration.Hours()))
 }
 
 var _ fmt.Stringer = Period{}
@@ -193,13 +193,13 @@ func mkerr(err error, format string, arguments ...interface{}) error {
 
 func (r *Scanner) splitParts(line string) []string {
 	if r.err != nil {
-		return nil
+		return make([]string, 2)
 	}
 	parts := strings.Split(line, " ")
 	if len(parts) != 2 {
 		innerr := fmt.Errorf("2 fields expected, got %d", len(parts))
 		r.err = mkerr(innerr, `Cannot parse line "%s"`, line)
-		return nil
+		return make([]string, 2)
 	}
 	return parts
 }
@@ -259,10 +259,6 @@ func (r *Scanner) parsePeriod() {
 	line := r.Src.Text()
 
 	parts := r.splitParts(line)
-
-	if parts == nil {
-		return
-	}
 
 	tp := Period{
 		Start:    r.parseStart(parts[0]),
