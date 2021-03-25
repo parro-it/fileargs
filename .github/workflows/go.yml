@@ -13,9 +13,6 @@ jobs:
         with:
           go-version: ${{ matrix.go-version }}
 
-      - name: Checkout code
-        uses: actions/checkout@v2
-      
       - name: Checkout code (2)
         uses: actions/checkout@v2
         with:
@@ -29,19 +26,17 @@ jobs:
           
       - name: Test
         run: go test -failfast -race ./...
+        working-directory: 'github.com/parro-it/fileargs'
  
       - name: Lint
         run: |
           go get golang.org/x/lint/golint
           golint -set_exit_status ./...
+        working-directory: 'github.com/parro-it/fileargs'
 
       - name: Vet
         run: go vet ./...
-        
-#      - name: Install goveralls
-#        env:
-#          GO111MODULE: off
-#        run: go get github.com/mattn/goveralls
+        working-directory: 'github.com/parro-it/fileargs'
       
       - name: Test Coverage
         run: |
@@ -50,9 +45,4 @@ jobs:
           ./cc-test-reporter after-build
         env:
           CC_TEST_REPORTER_ID: ${{ secrets.CODE_CLIMATE_REPORTER_ID }}
-
-#      - name: Send coverage
-#        env:
-#          COVERALLS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-#        run: goveralls -coverprofile=covprofile -service=github -ignore='examples'
-
+        working-directory: 'github.com/parro-it/fileargs'
