@@ -1,2 +1,2 @@
-./wrfda-runner.cfg
+wrfda-runner.cfg
 2020112699 24

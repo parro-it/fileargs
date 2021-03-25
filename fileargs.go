@@ -7,28 +7,50 @@ package fileargs
 
 import (
 	"bufio"
+	"bytes"
 	"fmt"
 	"io"
-	"os"
-	"path"
+	"io/fs"
 	"strconv"
 	"strings"
 	"time"
 )
 
 // A FileArguments contains all informations
-// read from an arguments.txt file.
+// read from an arguments file.
+// The type is a Stringer.
 type FileArguments struct {
 	Periods []*Period
 	CfgPath string
 }
 
+// String implements fmt.Stringer
+func (args FileArguments) String() string {
+	var buf bytes.Buffer
+	buf.WriteString(args.CfgPath + "\n")
+
+	for _, p := range args.Periods {
+		buf.WriteString(p.String() + "\n")
+	}
+	return buf.String()
+}
+
+var _ fmt.Stringer = FileArguments{}
+
 // A Period represents a lapse of time
 // with a Start instant and a Duration
+// The type is a Stringer.
 type Period struct {
 	Start    time.Time
 	Duration time.Duration
 }
+
+// String implements fmt.Stringer
+func (p Period) String() string {
+	return fmt.Sprintf("%s %2d", p.Start.Format("2006010215"), int(p.Duration.Hours()))
+}
+
+var _ fmt.Stringer = Period{}
 
 // Scanner provides a convenient interface for reading an arguments file.
 // Successive calls to the Scan method will step through the lines of a file,
@@ -38,9 +60,8 @@ type Period struct {
 // Scanning stops unrecoverably at EOF, the first I/O error, or a malformed line.
 // When a scan stops, the reader may have advanced arbitrarily far past the last token.
 type Scanner struct {
-	Src *bufio.Scanner
-	Cwd string
-
+	Src           *bufio.Scanner
+	Fsys          fs.FS
 	firstLineDone bool
 	cfgPath       string
 	period        *Period
@@ -48,12 +69,13 @@ type Scanner struct {
 }
 
 // New returns a new Scanner initialized for the
-// given source reader and cwd
-func New(source io.Reader, cwd string) *Scanner {
+// given source, that will use fsys to check for
+// config file existence during scan.
+func New(source io.Reader, fsys fs.FS) *Scanner {
 	scanner := bufio.NewScanner(source)
 	return &Scanner{
-		Src: scanner,
-		Cwd: cwd,
+		Src:  scanner,
+		Fsys: fsys,
 	}
 }
 
@@ -114,11 +136,13 @@ func (r *Scanner) Period() (*Period, bool) {
 // and returns a *FileArguments structure filled from the
 // data read.
 //
+// fsys is used to check for config file existence during scan.
+//
 // Scanner error is returned if any happens.
-func ReadAll(reader io.Reader, cwd string) (*FileArguments, error) {
+func ReadAll(reader io.Reader, fsys fs.FS) (*FileArguments, error) {
 	var args FileArguments
 
-	r := New(reader, cwd)
+	r := New(reader, fsys)
 
 	for r.Scan() {
 		if cfg, ok := r.CfgPath(); ok {
@@ -143,14 +167,15 @@ func ReadAll(reader io.Reader, cwd string) (*FileArguments, error) {
 // ReadFile reads arguments contained
 // in file, and return a filled *FileArguments
 // or an error if any happens.
-func ReadFile(file string) (*FileArguments, error) {
-	f, err := os.Open(file)
+// A givens fs.FS instance is used to read the file.
+func ReadFile(fsys fs.FS, file string) (*FileArguments, error) {
+	f, err := fsys.Open(file)
 	if err != nil {
 		return nil, err
 	}
 	defer f.Close()
 
-	return ReadAll(f, path.Dir(file))
+	return ReadAll(f, fsys)
 }
 
 func mkerr(err error, format string, arguments ...interface{}) error {
@@ -164,7 +189,6 @@ func mkerr(err error, format string, arguments ...interface{}) error {
 	`, "\t", "")
 
 	return fmt.Errorf(errfrm, errmsg, err)
-
 }
 
 func (r *Scanner) splitParts(line string) []string {
@@ -214,11 +238,8 @@ func (r *Scanner) parseCfgFilePath() {
 	r.period = nil
 
 	cfgPath := strings.TrimSpace(r.Src.Text())
-	if !path.IsAbs(cfgPath) {
-		cfgPath = path.Join(r.Cwd, cfgPath)
-	}
 
-	_, err := os.Stat(cfgPath)
+	_, err := fs.Stat(r.Fsys, cfgPath)
 	if err != nil {
 		r.err = mkerr(err, `Config file "%s" not found`, r.Src.Text())
 		return
