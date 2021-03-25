@@ -15,8 +15,6 @@ jobs:
 
       - name: Checkout code (2)
         uses: actions/checkout@v2
-        with:
-          path: 'github.com/parro-it/fileargs'
 
 
       - name: Install cc-test-reporter
@@ -26,22 +24,19 @@ jobs:
 
       - name: Test
         run: go test -failfast -race ./...
-        working-directory: 'github.com/parro-it/fileargs'
  
       - name: Lint
         run: |
           go get golang.org/x/lint/golint
           golint -set_exit_status ./...
-        working-directory: 'github.com/parro-it/fileargs'
 
       - name: Vet
         run: go vet ./...
-        working-directory: 'github.com/parro-it/fileargs'
       
       - name: Test Coverage
         run: |
           ./cc-test-reporter before-build
-          go test -covermode atomic -coverprofile=c.out  github.com/parro-it/fileargs/...
+          go test -covermode atomic -coverprofile=c.out ./...
           ./cc-test-reporter after-build
         env:
           CC_TEST_REPORTER_ID: ${{ secrets.CODE_CLIMATE_REPORTER_ID }}
