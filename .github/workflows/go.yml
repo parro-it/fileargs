@@ -27,30 +27,11 @@ jobs:
       - name: Vet
         run: go vet ./...
       
-#      - name: Test Coverage
-#        env:
-#          GO111MODULE: off
-#          COVERALLS_TOKEN: ${{ secrets.CODE_CLIMATE_REPORTER_ID }}
-#        run: |
-#          go get github.com/mattn/goveralls
-#          go test -covermode atomic -coverprofile=c.out ./...
-#          goveralls -coverprofile=c.out -service=github
       - name: Test & publish code coverage
         uses: paambaati/codeclimate-action@v2.7.5
         env:
           CC_TEST_REPORTER_ID: ${{ secrets.CODE_CLIMATE_REPORTER_ID }}
         with:
-          coverageCommand: go test -covermode atomic -coverprofile=c.out ./...
+          coverageCommand: go test -coverprofile=c.out ./...
           prefix: github.com/parro-it/fileargs
-          debug: true
-
-#      - name: Test Coverage
-#        run: |
-#          curl -L 'https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64' > ./cc-test-reporter
-#          chmod +x ./cc-test-reporter
-#          ./cc-test-reporter before-build
-#          go test -covermode atomic -coverprofile=c.out ./...
-#          ./cc-test-reporter after-build
-#        env:
-#          GO111MODULE: off
-#          CC_TEST_REPORTER_ID: ${{ secrets.CODE_CLIMATE_REPORTER_ID }}
+#          debug: true
