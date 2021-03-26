@@ -15,13 +15,7 @@ jobs:
 
       - name: Checkout code (2)
         uses: actions/checkout@v2
-
-
-      - name: Install cc-test-reporter
-        run: |
-          curl -L 'https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64' > ./cc-test-reporter
-          chmod +x ./cc-test-reporter
-
+          
       - name: Test
         run: go test -failfast -race ./...
  
@@ -33,10 +27,23 @@ jobs:
       - name: Vet
         run: go vet ./...
       
+#      - name: Test Coverage
+#        env:
+#          GO111MODULE: off
+#          COVERALLS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#        run: |
+#          go get github.com/mattn/goveralls
+#          go test -covermode atomic -coverprofile=c.out ./...
+#          goveralls -coverprofile=c.out -service=github
+
       - name: Test Coverage
+        env:
         run: |
+          curl -L 'https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64' > ./cc-test-reporter
+          chmod +x ./cc-test-reporter
           ./cc-test-reporter before-build
           go test -covermode atomic -coverprofile=c.out ./...
           ./cc-test-reporter after-build
         env:
+          GO111MODULE: off
           CC_TEST_REPORTER_ID: ${{ secrets.CODE_CLIMATE_REPORTER_ID }}
