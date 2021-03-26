@@ -41,7 +41,7 @@ jobs:
           CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
         with:
           coverageCommand: go test -covermode atomic -coverprofile=c.out ./...
-          prefix: github.com/ChainSafe/gossamer
+          prefix: github.com/parro-it/fileargs
           debug: true
 
 #      - name: Test Coverage
