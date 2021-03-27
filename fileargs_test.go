@@ -2,7 +2,6 @@ package fileargs
 
 import (
 	"embed"
-	"fmt"
 	"io/fs"
 	"testing"
 	"time"
@@ -57,13 +56,13 @@ func TestFileWrong(t *testing.T) {
 	dateFile := "wrong.txt"
 	dates, err := ReadFile(fixtureFS, dateFile)
 	assert.Error(t, err)
-	assert.Equal(t, fmt.Sprintf(`
+	assert.Equal(t, `
 Expected format for arguments.txt:
 /path/to/cfg/file
 YYYYMMDDHH HOURS
 ...
 Config file "2020112600 24" not found: open 2020112600 24: file does not exist
-`), err.Error())
+`, err.Error())
 
 	assert.Nil(t, dates)
 
